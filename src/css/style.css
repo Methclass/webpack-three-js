@@ -1,0 +1,67 @@
+/* Electronic Art Font */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+body {
+    margin: 0;
+    overflow: hidden; /* Prevent scrolling */
+    background-color: #050505;
+    font-family: 'Space Mono', monospace;
+}
+
+#floating-world {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Let clicks pass through to background */
+    z-index: 10;
+}
+
+/* The Floating Blocks */
+.acid-block {
+    position: absolute; /* Essential for floating */
+    padding: 1rem 2rem;
+    background-color: #000;
+    color: #fff;
+    border: 1px solid #333;
+    pointer-events: auto; /* Make blocks clickable */
+    user-select: none;
+    will-change: transform; /* Performance optimization */
+    
+    /* "Electronic" Glow */
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.1); 
+}
+
+.acid-block h1, .acid-block h2 {
+    margin: 0;
+    font-size: 3rem;
+    text-transform: uppercase;
+    line-height: 0.9;
+}
+
+.acid-block p, .acid-block span {
+    font-size: 0.8rem;
+    color: #00ff88; /* Matrix Green */
+    margin-bottom: 5px;
+    display: block;
+}
+
+/* Variant: Inverted (White block, Black text) like Symphony */
+.acid-block.invert {
+    background-color: #fff;
+    color: #000;
+    border: none;
+}
+.acid-block.invert p { color: #000; font-weight: bold; }
+
+/* Variant: Outline only */
+.acid-block.outline {
+    background: transparent;
+    border: 2px solid #00ff88;
+}
+.acid-block.outline a {
+    color: #00ff88;
+    text-decoration: none;
+    font-size: 1.5rem;
+}

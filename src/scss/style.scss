@@ -1,0 +1,239 @@
+/* 1. Make sure we have a THICK font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap');
+
+
+#acid-text {
+    /* CHANGED: Reduced from 25vw to 15vw */
+    font-size: 15vw; 
+    font-weight: 900; 
+    text-transform: uppercase;
+    line-height: 0.9;
+    white-space: nowrap;
+    text-align: center;
+    letter-spacing: -0.5vw; /* Tighter letters */
+    max-width: 100%; 
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    filter: blur(0.5px);
+}
+
+/* Adjust the pipes so they don't take up too much space */
+.pipe-separator {
+    display: inline-block;
+    color: currentColor;
+    margin: 0 1vw; /* Reduced margin */
+    font-weight: 100; /* Thinner lines */
+    transform: translateY(-1vw); /* Lift them up slightly if needed */
+}
+
+/* Optional: Make text smaller on mobile screens so it fits */
+@media (max-width: 768px) {
+    #acid-text {
+        font-size: 12vw;
+    }
+}
+
+/* 3. The Header/Footer UI (Methclass_2025) */
+.ui-layer {
+    /* Ensure UI sits on top but doesn't block the big text */
+    pointer-events: none; 
+}
+
+h1 {
+    /* CHANGED: Increased size */
+    font-family: 'Space Mono', monospace;
+    font-size: 2rem; /* Bigger header */
+    letter-spacing: 2px;
+    border-bottom: 2px solid #fff;
+    padding-bottom: 10px;
+}
+
+.meta-data {
+    font-family: 'Space Mono', monospace;
+    font-size: 1rem; /* Readable size */
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+/* 4. The Button (Initialize Sequence) */
+#start-btn {
+    font-family: 'Space Mono', monospace;
+    font-size: 1.5rem; /* Bigger button text */
+    padding: 15px 30px;
+    border: 2px solid #fff;
+    background: #000;
+    color: #fff;
+    text-transform: uppercase;
+    cursor: pointer;
+    pointer-events: auto; /* Make sure it's clickable */
+    transition: all 0.2s;
+}
+
+#start-btn:hover {
+    background: #fff;
+    color: #000;
+    transform: scale(1.1);
+}
+
+/* 5. Boxed Style Adjustment */
+.style-boxed {
+    border: 1.5vw solid currentColor; /* Thicker border */
+    padding: 0 4vw;
+}
+
+#loader-percent {
+    display: inline-block;
+    width: 4ch; /* Fix width so it doesn't jitter */
+    text-align: right;
+    color: #FF0000; /* Red number for urgency */
+}
+
+#dynamic-barcode {
+    font-family: 'Space Mono', monospace;
+    letter-spacing: -2px; /* Tighten the bars */
+    white-space: nowrap;
+    overflow: hidden;
+    margin-bottom: 5px;
+    opacity: 0.7;
+}
+
+/* 1. The Noise Animation Keyframes */
+@keyframes noise-anim {
+    0% { transform: translate(0, 0); }
+    10% { transform: translate(-5%, -5%); }
+    20% { transform: translate(-10%, 5%); }
+    30% { transform: translate(5%, -10%); }
+    40% { transform: translate(-5%, 15%); }
+    50% { transform: translate(-10%, 5%); }
+    60% { transform: translate(15%, 0); }
+    70% { transform: translate(0, 10%); }
+    80% { transform: translate(-15%, 0); }
+    90% { transform: translate(10%, 5%); }
+    100% { transform: translate(5%, 0); }
+}
+
+/* 2. The Grain Overlay Class */
+.grain-overlay {
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: 9999; /* Must be on top of EVERYTHING */
+    pointer-events: none; /* Click through it */
+    
+    /* The Noise Texture (Base64 transparent noise) */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+    
+    /* BLEND MODE: This is the secret sauce */
+    /* 'overlay' or 'soft-light' makes it look like film. 
+       'color-dodge' creates a harsher thermal look. Try them! */
+    mix-blend-mode: soft-light; 
+    opacity: 0.7; /* Adjust strength: 0.4 for subtle, 1.0 for gritty */
+    
+    /* The Animation */
+    animation: noise-anim 0.5s infinite steps(5);
+}
+
+/* 3. VIGNETTE (Optional: Dark corners like the photo) */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 9998; /* Just below grain */
+    pointer-events: none;
+    
+    /* Radial gradient to darken edges */
+    background: radial-gradient(circle, rgba(0,0,0,0) 60%, rgba(0,0,0,0.8) 100%);
+}
+@font-face {
+    font-family: 'Wingdings';
+    /* Adjust this path to match your folder structure! */
+    src: url('../assets/fonts/wingdings.woff2') format('woff2'),
+         url('../assets/fonts/wingdings.woff') format('woff'),
+         url('../assets/fonts/wingdings.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 2. Class to apply the font to a specific letter */
+.wingdings-char {
+    font-family: 'Wingdings', sans-serif !important;
+    /* Optional: Wingdings are sometimes smaller/larger than text */
+    vertical-align: middle; 
+}
+
+@media (max-width: 768px) {
+    
+    /* A. Layout Adjustments */
+    .ui-layer {
+        padding: 20px; /* Less padding on phone */
+    }
+
+    /* B. Header Stacking */
+    .header h1 {
+        font-size: 1.1rem;
+        border-bottom-width: 1px;
+    }
+
+    .meta-data {
+        flex-direction: column; /* Stack vertically */
+        gap: 2px;
+        font-size: 0.6rem;
+        margin-top: 8px;
+    }
+    
+    /* Hide non-essential metadata on super small screens */
+    .meta-data span:last-child {
+        display: none;
+    }
+
+    /* C. Footer Adjustment */
+    .footer {
+        align-items: flex-start;
+    }
+    .bar-code {
+        font-size: 0.8rem;
+        letter-spacing: -1px;
+    }
+    #loader-text {
+        font-size: 0.7rem;
+    }
+
+    /* D. ACID TEXT MOBILE LOGIC */
+    #acid-text {
+        font-size: 13vw; /* Slightly smaller to prevent overflow */
+        letter-spacing: -1px;
+        white-space: normal; /* Allow wrapping for long words like METHCLASS */
+        word-break: break-word; /* Force break if word is too long */
+        line-height: 0.9;
+        padding: 0 10px; /* Safety padding from screen edges */
+    }
+
+    /* Boxed style needs to be thinner on mobile */
+    .style-boxed {
+        border-width: 3px; 
+        padding: 10px 15px;
+    }
+
+    /* Tighter pipes for small screens */
+    .pipe-separator {
+        margin: 0 1px; 
+        font-size: 0.8em;
+    }
+    
+    /* E. Ensure Grain covers address bar area */
+    .grain-overlay, body::after {
+        height: 120vh; /* Extra height to be safe on scroll bounce */
+    }
+}
+
+/* Landscape Mode on Mobile */
+@media (max-width: 900px) and (orientation: landscape) {
+    #acid-text {
+        font-size: 8vw; /* Smaller text when phone is sideways */
+    }
+    .ui-layer {
+        padding: 15px;
+    }
+}
